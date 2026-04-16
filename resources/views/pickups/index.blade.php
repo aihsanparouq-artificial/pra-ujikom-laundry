@@ -4,6 +4,7 @@
 <div class="glass-panel p-4" style="padding: 2rem;">
     <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
         <h2>Riwayat Pengambilan Laundry</h2>
+        <br></br>
         <a href="/pickups/create" class="btn btn-primary">Input Pengambilan</a>
     </div>
 

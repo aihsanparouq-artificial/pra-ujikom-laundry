@@ -4,6 +4,7 @@
 <div class="glass-panel p-4" style="padding: 2rem;">
     <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
         <h2>Laporan Penjualan (Order Selesai / Diambil)</h2>
+        <br></br>
         <button onclick="window.print()" class="btn btn-primary">Print Laporan</button>
     </div>
 

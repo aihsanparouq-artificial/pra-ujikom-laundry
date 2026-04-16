@@ -40,9 +40,9 @@ class InitialDataSeeder extends Seeder
             'password' => Hash::make('password')
         ]);
 
-        TypeOfService::create(['service_name' => 'Cuci dan Gosok', 'price' => 5000, 'description' => 'Harga per kg']);
+        TypeOfService::create(['service_name' => 'Cuci dan Setrika', 'price' => 5000, 'description' => 'Harga per kg']);
         TypeOfService::create(['service_name' => 'Hanya Cuci', 'price' => 4500, 'description' => 'Harga per kg']);
-        TypeOfService::create(['service_name' => 'Hanya Gosok', 'price' => 5000, 'description' => 'Harga per kg']);
+        TypeOfService::create(['service_name' => 'Hanya Setrika', 'price' => 5000, 'description' => 'Harga per kg']);
         TypeOfService::create(['service_name' => 'Laundry Besar (Selimut, Karpet, dll)', 'price' => 7000, 'description' => 'Harga per kg']);
     }
 }

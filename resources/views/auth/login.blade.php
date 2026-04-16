@@ -3,7 +3,8 @@
 @section('content')
 <div class="auth-wrapper">
     <div class="glass-panel auth-card">
-        <h2 class="auth-title">Welcome Back</h2>
+        <h2 class="auth-title">Asal Muasal Laundry</h2>
+        <p class="text-center text-muted" style="color: #94a3b8; margin-top: -1rem; margin-bottom: 2rem;">Silakan Login ke Akun Anda</p>
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
@@ -20,6 +21,9 @@
             </div>
 
             <button type="submit" class="btn btn-primary w-100 mt-4">Login</button>
+            <div class="mt-3 text-center">
+                Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
+            </div>
         </form>
     </div>
 </div>

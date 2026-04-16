@@ -8,6 +8,7 @@
         @csrf
         <div class="form-group">
             <label>Pilih Transaksi (Order)</label>
+            <br></br>
             <select name="id_order" class="form-control" required>
                 <option value="">-- Pilih Transaksi --</option>
                 @foreach($orders as $o)

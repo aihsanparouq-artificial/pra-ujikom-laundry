@@ -9,7 +9,7 @@
 <body>
     @auth
     <header>
-        <a href="/" class="brand">Antigravity Laundry</a>
+        <a href="/" class="brand">Asal Muasal Laundry</a>
         <nav class="nav-links">
             <a href="/">Dashboard</a>
             @if(Auth::user()->id_level == 1)

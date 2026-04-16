@@ -20,7 +20,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background: linear-gradient(135deg, #020617 0%, #1e3a8a 100%);
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
@@ -70,7 +70,8 @@ header {
     align-items: center;
 }
 
-.nav-links a, .nav-links button {
+.nav-links a,
+.nav-links button {
     color: var(--text-muted);
     text-decoration: none;
     margin-left: 1.5rem;
@@ -82,7 +83,8 @@ header {
     cursor: pointer;
 }
 
-.nav-links a:hover, .nav-links button:hover {
+.nav-links a:hover,
+.nav-links button:hover {
     color: #fff;
 }
 
@@ -159,9 +161,20 @@ header {
     font-weight: 600;
 }
 
-.text-danger { color: var(--danger); font-size: 0.85rem; margin-top: 0.35rem; display: block; }
-.mt-4 { margin-top: 1rem; }
-.w-100 { width: 100%; }
+.text-danger {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+    display: block;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.w-100 {
+    width: 100%;
+}
 
 /* Table Styles */
 table {
@@ -169,15 +182,30 @@ table {
     border-collapse: collapse;
     margin-top: 1rem;
 }
-th, td {
+
+th,
+td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid var(--card-border);
 }
+
 th {
     color: var(--text-muted);
     font-weight: 500;
 }
+
 tbody tr:hover {
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.auth-card a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-card a:hover {
+    color: #93c5fd;
 }

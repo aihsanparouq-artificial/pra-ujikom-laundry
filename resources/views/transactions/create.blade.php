@@ -47,7 +47,24 @@
             <!-- Right Info / Payment -->
             <div class="glass-panel" style="padding: 1.5rem; background: rgba(15,23,42,0.5);">
                 <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem;">Ringkasan Pembayaran</h3>
-                
+
+                <div class="form-group" style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                    <span>Subtotal:</span>
+                    <span id="display_subtotal">Rp. 0</span>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label>Diskon Manual (Rp)</label>
+                    <input type="number" name="discount" id="discount" class="form-control" value="0" min="0">
+                </div>
+
+                <div class="form-group mt-2" style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                    <span>Pajak (11%):</span>
+                    <span id="display_tax">Rp. 0</span>
+                </div>
+
+                <hr style="border-color: var(--card-border); margin: 1rem 0;">
+
                 <div class="form-group" style="display: flex; justify-content: space-between; font-size: 1.25rem;">
                     <span>Total Tagihan:</span>
                     <strong style="color: var(--primary);" id="display_total">Rp. 0</strong>
@@ -73,21 +90,36 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const qtyInputs = document.querySelectorAll('.qty-input');
+        const discountInput = document.getElementById('discount');
+        const displaySubtotal = document.getElementById('display_subtotal');
+        const displayTax = document.getElementById('display_tax');
         const displayTotal = document.getElementById('display_total');
         const inputTotal = document.getElementById('input_total');
         const orderPay = document.getElementById('order_pay');
         const displayChange = document.getElementById('display_change');
 
+        const TAX_RATE = 0.10;
+
         function calculateTotal() {
-            let total = 0;
+            let subtotal = 0;
             qtyInputs.forEach(input => {
                 const qty = parseInt(input.value) || 0;
                 const id = input.getAttribute('data-id');
-                const price = parseInt(document.getElementById('price_' + id).value) || 0;
-                total += qty * price;
+                const price = parseFloat(document.getElementById('price_' + id).value) || 0;
+                subtotal += qty * price;
             });
-            inputTotal.value = total;
-            displayTotal.innerText = 'Rp. ' + total.toLocaleString('id-ID');
+
+            const discount = parseInt(discountInput.value) || 0;
+
+            const taxableAmount = Math.max(0, subtotal - discount);
+            const taxAmount = Math.round(taxableAmount * TAX_RATE);
+
+            const finalTotal = taxableAmount + taxAmount;
+
+            displaySubtotal.innerText = 'Rp. ' + subtotal.toLocaleString('id-ID');
+            displayTax.innerText = 'Rp. ' + taxAmount.toLocaleString('id-ID');
+            displayTotal.innerText = 'Rp. ' + finalTotal.toLocaleString('id-ID');
+            inputTotal.value = finalTotal;
             calculateChange();
         }
 
@@ -103,6 +135,7 @@
             input.addEventListener('input', calculateTotal);
         });
 
+        discountInput.addEventListener('input', calculateTotal);
         orderPay.addEventListener('input', calculateChange);
     });
 </script>

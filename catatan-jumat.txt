@@ -1,0 +1,14 @@
+Ketentuan baru pada projek laundry:
+1. Jika customer-nya bukan member, maka akan ditanya jika mau menjadi member. Kelebihan member adalah namanya terdaftar di database customer dan berhak menerima diskon khusus member. Diskon yang didapat oleh para member adalah 5%
+
+2. Seluruh customer, baik yang member maupun non-member, berhak memasukkan voucher yang terdaftar. Jika kode voucher benar ada, maka customer tersebut berhak mendapatkan diskon 10%.
+
+3. Jika customer adalah member dan memasukkan kode voucher yang benar, maka dia mendapatkan diskon 15%. Formulanya: grandFinalTotal = (diskon member + diskon voucher) * finalTotal, dimana finalTotal = taxableAmount + taxAmount. Intinya coba logika diskonnya dihitung setelah pajak, yang mana sebelumnya pada projek ini proses perhitungannya adalah diskonnya sebelum pajak.
+
+4. Kode voucher hanya berlaku maksimal satu voucher per transaksi, dan voucher yang sudah terpakai tidak bisa digunakan lagi di masa depan.
+
+
+Mari buat logika interaksinya seperti ini:
+Pada halaman transaksi terdapat dua button radio. Satu tombol bertuliskan untuk Customer Member dan yang lainnya bertuliskan Customer non-Member. Ketika tombol radio Customer Member ditekan, tampilannya di halaman transaksinya sama seperti sebelum perintah voucher diberikan. Ketika tombol radio Customer non-Member ditekan, tampilannya berubah menjadi tambah pelanggan baru (non-member). Ini semua dilakukan di halaman transaksi tanpa pindah URL.
+
+Ketika di Customer non-Member, tampilan form-nya menyerupai tambah pelanggan baru di halaman Customer. Ada Nama Lengkap, No Telepon, dan Alamat Lengkap.

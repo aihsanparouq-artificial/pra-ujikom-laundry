@@ -7,18 +7,17 @@
         <a href="/transactions" class="btn btn-primary" style="background: transparent; border: 1px solid var(--primary); box-shadow: none;">Batal</a>
     </div>
 
-    <form method="POST" action="/transactions">
+    <form method="POST" action="/transactions" id="transactionForm">
         @csrf
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-            <!-- Left Info -->
             <div>
                 <div class="form-group">
                     <label>Pilih Pelanggan</label>
                     <div style="display: flex; gap: 1rem;">
-                        <select name="id_customer" class="form-control" required>
-                            <option value="">-- Pilih --</option>
+                        <select name="id_customer" id="id_customer" class="form-control" required>
+                            <option value="" data-is-member="0">-- Pilih --</option>
                             @foreach($customers as $c)
-                                <option value="{{ $c->id }}">{{ $c->customer_name }} ({{ $c->phone }})</option>
+                                <option value="{{ $c->id }}" data-is-member="{{ $c->is_member }}">{{ $c->customer_name }} ({{ $c->phone }})</option>
                             @endforeach
                         </select>
                         <a href="/master/customers" class="btn btn-primary" style="padding: 0.75rem;">+</a>
@@ -26,17 +25,17 @@
                 </div>
 
                 <div class="form-group mt-4">
-                    <label>Jenis Layanan & Kuantitas (Kg/Pcs)</label>
-                    <table style="width: 100%; border: none; margin-top: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <label>Jenis Layanan & Kuantitas</label>
+                    <table style="width: 100%; border: none; background: rgba(0,0,0,0.2); border-radius: 8px;">
                         @foreach($services as $s)
                         <tr>
                             <td style="border: none; padding: 0.75rem;">
                                 <strong>{{ $s->service_name }}</strong><br>
-                                <small class="text-muted">Rp. {{ number_format($s->price,0,',','.') }} / unit</small>
+                                <small class="text-muted">Rp. {{ number_format($s->price,0,',','.') }}</small>
                                 <input type="hidden" id="price_{{ $s->id }}" value="{{ $s->price }}">
                             </td>
                             <td style="border: none; width: 100px;">
-                                <input type="number" name="services[{{ $s->id }}]" id="qty_{{ $s->id }}" class="form-control qty-input" value="0" min="0" data-id="{{ $s->id }}">
+                                <input type="number" name="services[{{ $s->id }}]" class="form-control qty-input" value="0" min="0" data-id="{{ $s->id }}">
                             </td>
                         </tr>
                         @endforeach
@@ -44,44 +43,44 @@
                 </div>
             </div>
 
-            <!-- Right Info / Payment -->
             <div class="glass-panel" style="padding: 1.5rem; background: rgba(15,23,42,0.5);">
-                <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem;">Ringkasan Pembayaran</h3>
+                <h3 style="border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem;">Ringkasan</h3>
 
-                <div class="form-group" style="display: flex; justify-content: space-between; color: var(--text-muted);">
-                    <span>Subtotal:</span>
-                    <span id="display_subtotal">Rp. 0</span>
+                <div class="form-group mt-3">
+                    <label>Kode Voucher</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" name="voucher_code" id="voucher_code" class="form-control" placeholder="Masukkan kode...">
+                        <button type="button" id="btn_apply_voucher" class="btn btn-secondary">Cek</button>
+                    </div>
+                    <small id="voucher_msg" style="display: block; margin-top: 5px;"></small>
                 </div>
 
-                <div class="form-group mt-2">
-                    <label>Diskon Manual (Rp)</label>
-                    <input type="number" name="discount" id="discount" class="form-control" value="0" min="0">
+                <hr style="border-color: var(--card-border);">
+
+                <div style="color: var(--text-muted); font-size: 0.9rem;">
+                    <div class="flex justify-between"><span>Subtotal:</span> <span id="display_subtotal">Rp. 0</span></div>
+                    <div class="flex justify-between"><span>Pajak (10%):</span> <span id="display_tax">Rp. 0</span></div>
+                    <div class="flex justify-between" style="color: #4ade80;"><span>Diskon Member:</span> <span id="display_disc_member">0%</span></div>
+                    <div class="flex justify-between" style="color: #4ade80;"><span>Diskon Voucher:</span> <span id="display_disc_voucher">0%</span></div>
                 </div>
 
-                <div class="form-group mt-2" style="display: flex; justify-content: space-between; color: var(--text-muted);">
-                    <span>Pajak (11%):</span>
-                    <span id="display_tax">Rp. 0</span>
-                </div>
-
-                <hr style="border-color: var(--card-border); margin: 1rem 0;">
-
-                <div class="form-group" style="display: flex; justify-content: space-between; font-size: 1.25rem;">
-                    <span>Total Tagihan:</span>
+                <div class="form-group mt-4" style="display: flex; justify-content: space-between; font-size: 1.5rem;">
+                    <span>Total:</span>
                     <strong style="color: var(--primary);" id="display_total">Rp. 0</strong>
                     <input type="hidden" name="total" id="input_total" value="0">
                 </div>
 
                 <div class="form-group mt-4">
-                    <label>Uang Dibayar (Rp)</label>
-                    <input type="number" name="order_pay" id="order_pay" class="form-control" required min="0" style="font-size: 1.25rem;">
+                    <label>Uang Dibayar</label>
+                    <input type="number" name="order_pay" id="order_pay" class="form-control" required style="font-size: 1.25rem;">
                 </div>
 
-                <div class="form-group" style="display: flex; justify-content: space-between; font-size: 1.1rem; color: var(--text-muted);">
+                <div class="flex justify-between mt-2">
                     <span>Kembalian:</span>
                     <strong id="display_change">Rp. 0</strong>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100" style="margin-top: 1rem; font-size: 1.1rem; padding: 1rem;">Simpan Transaksi</button>
+                <button type="submit" class="btn btn-primary w-100 mt-4" style="padding: 1rem;">Simpan Transaksi</button>
             </div>
         </div>
     </form>
@@ -90,53 +89,78 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const qtyInputs = document.querySelectorAll('.qty-input');
-        const discountInput = document.getElementById('discount');
-        const displaySubtotal = document.getElementById('display_subtotal');
-        const displayTax = document.getElementById('display_tax');
-        const displayTotal = document.getElementById('display_total');
-        const inputTotal = document.getElementById('input_total');
-        const orderPay = document.getElementById('order_pay');
-        const displayChange = document.getElementById('display_change');
+        const customerSelect = document.getElementById('id_customer');
+        const voucherInput = document.getElementById('voucher_code');
+        const btnVoucher = document.getElementById('btn_apply_voucher');
 
+        let isVoucherValid = false;
         const TAX_RATE = 0.10;
 
         function calculateTotal() {
             let subtotal = 0;
             qtyInputs.forEach(input => {
                 const qty = parseInt(input.value) || 0;
-                const id = input.getAttribute('data-id');
-                const price = parseFloat(document.getElementById('price_' + id).value) || 0;
+                const price = parseFloat(document.getElementById('price_' + input.dataset.id).value);
                 subtotal += qty * price;
             });
 
-            const discount = parseInt(discountInput.value) || 0;
+            // 1. Hitung Pajak dari Subtotal
+            const taxAmount = subtotal * TAX_RATE;
+            const finalBeforeDiscount = subtotal + taxAmount;
 
-            const taxableAmount = Math.max(0, subtotal - discount);
-            const taxAmount = Math.round(taxableAmount * TAX_RATE);
+            // 2. Hitung Persentase Diskon (Ketentuan 1 & 2 & 3)
+            let memberDiscRate = 0;
+            let voucherDiscRate = 0;
 
-            const finalTotal = taxableAmount + taxAmount;
+            const isMember = customerSelect.options[customerSelect.selectedIndex].getAttribute('data-is-member') == "1";
+            if (isMember) memberDiscRate = 0.05; // Member 5%
 
-            displaySubtotal.innerText = 'Rp. ' + subtotal.toLocaleString('id-ID');
-            displayTax.innerText = 'Rp. ' + taxAmount.toLocaleString('id-ID');
-            displayTotal.innerText = 'Rp. ' + finalTotal.toLocaleString('id-ID');
-            inputTotal.value = finalTotal;
+            if (isVoucherValid) voucherDiscRate = 0.10; // Voucher 10%
+
+            const totalDiscRate = memberDiscRate + voucherDiscRate; // Jika keduanya, jadi 15%
+
+            // 3. Hitung Nominal Diskon (Dihitung dari Total + Pajak)
+            const discountAmount = finalBeforeDiscount * totalDiscRate;
+            const grandFinalTotal = finalBeforeDiscount - discountAmount;
+
+            // UI Update
+            document.getElementById('display_subtotal').innerText = 'Rp. ' + subtotal.toLocaleString('id-ID');
+            document.getElementById('display_tax').innerText = 'Rp. ' + taxAmount.toLocaleString('id-ID');
+            document.getElementById('display_disc_member').innerText = (memberDiscRate * 100) + '%';
+            document.getElementById('display_disc_voucher').innerText = (voucherDiscRate * 100) + '%';
+            document.getElementById('display_total').innerText = 'Rp. ' + Math.round(grandFinalTotal).toLocaleString('id-ID');
+            document.getElementById('input_total').value = Math.round(grandFinalTotal);
+
             calculateChange();
         }
 
         function calculateChange() {
-            const total = parseInt(inputTotal.value) || 0;
-            const pay = parseInt(orderPay.value) || 0;
-            let change = pay - total;
-            displayChange.innerText = 'Rp. ' + (change >= 0 ? change.toLocaleString('id-ID') : 0);
-            displayChange.style.color = change < 0 ? 'var(--danger)' : 'var(--success)';
+            const total = parseInt(document.getElementById('input_total').value) || 0;
+            const pay = parseInt(document.getElementById('order_pay').value) || 0;
+            const change = pay - total;
+            const el = document.getElementById('display_change');
+            el.innerText = 'Rp. ' + (change >= 0 ? change.toLocaleString('id-ID') : 0);
+            el.style.color = change < 0 ? 'var(--danger)' : 'var(--success)';
         }
 
-        qtyInputs.forEach(input => {
-            input.addEventListener('input', calculateTotal);
+        // Mocking Voucher Check (Di dunia nyata gunakan Fetch/AJAX ke Database)
+        btnVoucher.addEventListener('click', () => {
+            const code = voucherInput.value.toUpperCase();
+            if(code === "PROMO10") { // Contoh kode statis untuk tes
+                isVoucherValid = true;
+                document.getElementById('voucher_msg').innerText = "Voucher Berhasil!";
+                document.getElementById('voucher_msg').style.color = "green";
+            } else {
+                isVoucherValid = false;
+                document.getElementById('voucher_msg').innerText = "Voucher Tidak Valid/Habis.";
+                document.getElementById('voucher_msg').style.color = "red";
+            }
+            calculateTotal();
         });
 
-        discountInput.addEventListener('input', calculateTotal);
-        orderPay.addEventListener('input', calculateChange);
+        qtyInputs.forEach(i => i.addEventListener('input', calculateTotal));
+        customerSelect.addEventListener('change', calculateTotal);
+        document.getElementById('order_pay').addEventListener('input', calculateChange);
     });
 </script>
 @endsection

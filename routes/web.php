@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PickupController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\VoucherController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,6 +21,12 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/master/customers', [CustomerController::class, 'index']);
     Route::post('/master/customers', [CustomerController::class, 'store']);
+
+    Route::get('/master/vouchers', [VoucherController::class, 'index']);
+    Route::get('/master/vouchers/create', [VoucherController::class, 'create']);
+    Route::post('/master/vouchers', [VoucherController::class, 'store']);
+    Route::post('/master/vouchers/generate', [VoucherController::class, 'generate'])->name('vouchers.generate');
+    Route::post('/master/vouchers/check', [VoucherController::class, 'check'])->name('vouchers.check');
 
     Route::get('/transactions', [TransactionController::class, 'index']);
     Route::get('/transactions/create', [TransactionController::class, 'create']);

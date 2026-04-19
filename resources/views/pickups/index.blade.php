@@ -23,7 +23,17 @@
                 <tr>
                     <td>{{ $p->pickup_date }}</td>
                     <td><strong>{{ $p->order->order_code ?? '-' }}</strong></td>
-                    <td>{{ $p->customer->customer_name ?? '-' }}</td>
+                    <td>
+                        {{ $p->customer->customer_name ?? '-' }}
+                        <br>
+                        <small style="color: var(--primary);">
+                            @if($p->customer && $p->customer->is_member)
+                                (Member)
+                            @else
+                                (Non-Member)
+                            @endif
+                        </small>
+                    </td>
                     <td>{{ $p->notes ?? '-' }}</td>
                 </tr>
                 @endforeach

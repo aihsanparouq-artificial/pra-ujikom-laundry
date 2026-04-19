@@ -56,7 +56,18 @@ class TransactionController extends Controller
         $voucher_disc_rate = 0;
 
         // Cek Status Member (Ketentuan 1)
-        $customer = Customer::findOrFail($request->id_customer);
+        if ($request->customer_type === 'new') {
+            $customer = Customer::create([
+                'customer_name' => $request->customer_name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'is_member' => $request->has('join_member') ? true : false
+            ]);
+            $request->merge(['id_customer' => $customer->id]);
+        } else {
+            $customer = Customer::findOrFail($request->id_customer);
+        }
+
         if ($customer->is_member) {
             $member_disc_rate = 0.05; // 5% untuk member
         }
@@ -66,6 +77,7 @@ class TransactionController extends Controller
         if ($request->voucher_code) {
             $voucher = Voucher::where('code', $request->voucher_code)
                 ->where('is_used', false)
+                ->where('expired_at', '>=', now())
                 ->first();
 
             if ($voucher) {

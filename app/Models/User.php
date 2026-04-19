@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'id_level');
+    }
 }

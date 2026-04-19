@@ -1,14 +1,34 @@
 Ketentuan baru pada projek laundry:
-1. Jika customer-nya bukan member, maka akan ditanya jika mau menjadi member. Kelebihan member adalah namanya terdaftar di database customer dan berhak menerima diskon khusus member. Diskon yang didapat oleh para member adalah 5%
+1. Jika customer-nya bukan member, maka akan ditanya jika mau menjadi member. 
+Kelebihan member adalah namanya terdaftar di database customer dan berhak menerima diskon khusus member. 
+Diskon yang didapat oleh para member adalah 5%
 
-2. Seluruh customer, baik yang member maupun non-member, berhak memasukkan voucher yang terdaftar. Jika kode voucher benar ada, maka customer tersebut berhak mendapatkan diskon 10%.
+2. Seluruh customer, baik yang member maupun non-member, berhak memasukkan voucher yang terdaftar. 
+Jika kode voucher benar ada, maka customer tersebut berhak mendapatkan diskon 10%.
 
-3. Jika customer adalah member dan memasukkan kode voucher yang benar, maka dia mendapatkan diskon 15%. Formulanya: grandFinalTotal = (diskon member + diskon voucher) * finalTotal, dimana finalTotal = taxableAmount + taxAmount. Intinya coba logika diskonnya dihitung setelah pajak, yang mana sebelumnya pada projek ini proses perhitungannya adalah diskonnya sebelum pajak.
+3. Jika customer adalah member dan memasukkan kode voucher yang benar, maka dia mendapatkan diskon 15%. 
+Formulanya: grandFinalTotal = (diskon member + diskon voucher) * finalTotal, 
+dimana finalTotal = taxableAmount + taxAmount. 
+Intinya coba logika diskonnya dihitung setelah pajak, yang mana sebelumnya pada projek ini proses perhitungannya adalah diskonnya sebelum pajak.
 
-4. Kode voucher hanya berlaku maksimal satu voucher per transaksi, dan voucher yang sudah terpakai tidak bisa digunakan lagi di masa depan.
+4. Kode voucher hanya berlaku maksimal satu voucher per transaksi, 
+dan voucher yang sudah terpakai tidak bisa digunakan lagi di masa depan.
+Hanya Role Admin yang dapat mendaftarkan kode voucher yang baru.
+Role Admin dan Operator dapat melihat list voucher yang berlaku atau tidak berlaku pada halaman voucher.
+Voucher yang tidak berlaku adalah voucher yang sudah terpakai atau voucher yang sudah kadaluarsa.
 
-
+=========================================
 Mari buat logika interaksinya seperti ini:
-Pada halaman transaksi terdapat dua button radio. Satu tombol bertuliskan untuk Customer Member dan yang lainnya bertuliskan Customer non-Member. Ketika tombol radio Customer Member ditekan, tampilannya di halaman transaksinya sama seperti sebelum perintah voucher diberikan. Ketika tombol radio Customer non-Member ditekan, tampilannya berubah menjadi tambah pelanggan baru (non-member). Ini semua dilakukan di halaman transaksi tanpa pindah URL.
+Pada halaman transaksi terdapat dua button radio. Satu tombol bertuliskan untuk Customer Member dan yang lainnya bertuliskan Customer non-Member. 
+Ketika tombol radio Customer Member ditekan, tampilan halaman transaksinya sama seperti sebelum perintah voucher diberikan. 
+Ketika tombol radio Customer non-Member ditekan, tampilannya berubah menjadi tambah pelanggan baru (non-member). 
+Semua ini dilakukan di halaman transaksi tanpa pindah URL.
 
-Ketika di Customer non-Member, tampilan form-nya menyerupai tambah pelanggan baru di halaman Customer. Ada Nama Lengkap, No Telepon, dan Alamat Lengkap.
+Ketika di Customer non-Member, tampilan form-nya menyerupai tambah pelanggan baru yang ada di halaman Customer. 
+Ada Nama Lengkap, No Telepon, dan Alamat Lengkap.
+Sedangkan pada Customer Member, tampilannya sama seperti sebelum perintah voucher diberikan.
+Yaitu hanya ada dropdown list nama member yang terdaftar.
+
+Pada halaman riwayat pengambilan, tampilkan juga status customer, apakah member atau non-member.
+
+jika masih ada logika yang kurang atau perlu diperbaiki, beri tahu saya.

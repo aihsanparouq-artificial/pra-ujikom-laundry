@@ -14,12 +14,13 @@
             <a href="/">Dashboard</a>
             @if(Auth::user()->id_level == 1)
                 <!-- Super Admin -->
-                <a href="/master/users">Users</a>
-                <a href="/master/services">Services</a>
+                {{-- <a href="/master/users">Users</a> --}}
+                {{-- <a href="/master/services">Services</a> --}}
             @endif
             @if(in_array(Auth::user()->id_level, [1, 2]))
                 <!-- Admin & Operator -->
                 <a href="/master/customers">Customers</a>
+                <a href="/master/vouchers">Voucher</a>
                 <a href="/transactions">Transaksi</a>
                 <a href="/pickups">Pengambilan</a>
             @endif

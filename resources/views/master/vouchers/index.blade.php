@@ -5,6 +5,7 @@
     <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
         <h2>Daftar Voucher</h2>
         @if(Auth::user()->id_level == 1)
+            <br></br>
             <a href="/master/vouchers/create" class="btn btn-primary">Tambah Voucher</a>
         @endif
     </div>

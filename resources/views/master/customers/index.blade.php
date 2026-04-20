@@ -9,10 +9,10 @@
         <div style="overflow-x: auto;">
             <table>
                 <thead>
-                    <tr>
                         <th>Nama Pelanggan</th>
                         <th>No Telepon</th>
                         <th>Alamat</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,10 +21,17 @@
                         <td><strong>{{ $c->customer_name }}</strong></td>
                         <td>{{ $c->phone }}</td>
                         <td>{{ $c->address }}</td>
+                        <td>
+                            @if($c->is_member)
+                                <span style="color: var(--primary); font-weight: bold;">Member</span>
+                            @else
+                                <span style="color: var(--text-muted);">Non-Member</span>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                     @if($customers->isEmpty())
-                        <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Belum ada pelanggan.</td></tr>
+                        <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Belum ada pelanggan.</td></tr>
                     @endif
                 </tbody>
             </table>
@@ -46,6 +53,11 @@
                 <div class="form-group mt-4">
                     <label>Alamat Lengkap</label>
                     <textarea name="address" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group mt-3">
+                    <label style="cursor: pointer; display:flex; align-items:center; gap: 0.5rem; font-weight: bold; color: var(--primary);">
+                        <input type="checkbox" name="join_member" value="1"> Daftar sebagai Member
+                    </label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mt-4">Simpan Pelanggan</button>
             </form>

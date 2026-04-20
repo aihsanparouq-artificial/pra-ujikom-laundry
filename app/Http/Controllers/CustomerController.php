@@ -15,7 +15,9 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        Customer::create($request->only('customer_name', 'phone', 'address'));
+        $data = $request->only('customer_name', 'phone', 'address');
+        $data['is_member'] = $request->has('join_member') ? true : false;
+        Customer::create($data);
         return back();
     }
 }

@@ -30,7 +30,7 @@
                         <select name="id_customer" id="id_customer" class="form-control">
                             <option value="" data-is-member="0">-- Pilih --</option>
                             @foreach($customers as $c)
-                                <option value="{{ $c->id }}" data-is-member="{{ $c->is_member }}">{{ $c->customer_name }} ({{ $c->phone }})</option>
+                                <option value="{{ $c->id }}" data-is-member="{{ $c->is_member ? '1' : '0' }}">{{ $c->customer_name }} ({{ $c->phone }})</option>
                             @endforeach
                         </select>
                     </div>
